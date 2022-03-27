@@ -119,7 +119,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener
                     if (user.isEmailVerified())
                     {
                         // redirect to profile page
-                        startActivity(new Intent(Login.this, ProfilePage.class));
+                        startActivity(new Intent(Login.this, MainActivity.class));
                     }
                     else
                     {
