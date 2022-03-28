@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".RecordFragment">
 
+
     <!--Company's Name-->
     <TextView
         android:id="@+id/record_fragment_companyName"
@@ -47,9 +48,10 @@
 
     <ImageView
         android:id="@+id/record_fragment_recordButton"
-        android:layout_width="126dp"
-        android:layout_height="137dp"
-        android:src="@drawable/mic_off"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:background="@color/white"
+        android:src="@drawable/record_btn_recording"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -57,13 +59,12 @@
 
     <ImageView
         android:id="@+id/record_fragment_listButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="70dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:src="@drawable/list_button"
         app:layout_constraintBottom_toBottomOf="@id/record_fragment_recordButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/record_fragment_recordButton"
+        app:layout_constraintStart_toEndOf="@id/record_fragment_recordButton"
         app:layout_constraintTop_toTopOf="@id/record_fragment_recordButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
