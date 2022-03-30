@@ -15,7 +15,6 @@
             android:id="@+id/action_recordFragment_to_audioListFragment"
             app:destination="@id/audioListFragment"
 
-
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:enterAnim="@anim/slide_in"
