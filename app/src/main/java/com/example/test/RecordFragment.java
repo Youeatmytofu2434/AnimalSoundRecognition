@@ -13,10 +13,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Chronometer;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -37,8 +40,13 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     private boolean isRecording = false;
     private static int MIC_PERMISSION_CODE = 2434;
     MediaRecorder mediaRecorder;
+    // File name
     private String filePath = "";
     private String fileName = "";
+    // Timer
+    private Chronometer timer;
+    // Display filename
+    private TextView display_fileName;
 
 
     public RecordFragment() {
@@ -66,6 +74,10 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         // Initialize + set onclick function to record button (ImageView)
         recordButton = view.findViewById(R.id.record_fragment_recordButton);
         recordButton.setOnClickListener(this);
+        // Timer
+        timer = view.findViewById(R.id.record_fragment_timer);
+        // Display filename
+        display_fileName = view.findViewById(R.id.record_fragment_displayFilename);
     }
 
     @Override
@@ -133,14 +145,24 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
+    // Start recording --> start timer --> save file (formatted file name) to system --> display file name
     private void startRecording()
     {
-        SimpleDateFormat fileNameFormat = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss", Locale.US);
-        Date now = new Date();
-        filePath = getActivity().getExternalFilesDir("/").getAbsolutePath();
-        fileName = fileNameFormat.format(now) + ".mp3";
+        // allows timer to start at 0:00
+        timer.setBase(SystemClock.elapsedRealtime());
+        // start the time when we call startRecording
+        timer.start();
 
+        // formatting filenames + save to a location
+        SimpleDateFormat fileNameFormatter = new SimpleDateFormat("yyyy_MM_dd_HH:mm:ss", Locale.US);
+        Date currentDate = new Date();
+        filePath = getActivity().getExternalFilesDir("/").getAbsolutePath();
+        fileName = fileNameFormatter.format(currentDate) + ".mp3";
+
+        // Displays file name
+        display_fileName.setText("File name: " + fileName);
+
+        // start the recording
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
@@ -155,8 +177,12 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         mediaRecorder.start();
     }
 
+    // Stop recording --> stop timer
     private void stopRecording()
     {
+        // stop timer
+        timer.stop();
+        // stop recording
         mediaRecorder.stop();
         mediaRecorder.release();
         mediaRecorder = null;
