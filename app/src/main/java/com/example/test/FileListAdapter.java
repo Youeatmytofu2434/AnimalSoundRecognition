@@ -18,10 +18,13 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.FileLi
     private File[] fileArray;
     private modifiedDateToString timeToString;
 
+    private onItemListClick onItemListClick;
+
     // Constructor
-    public FileListAdapter(File[] fileArray)
+    public FileListAdapter(File[] fileArray, onItemListClick onItemListClick)
     {
         this.fileArray = fileArray;
+        this.onItemListClick = onItemListClick;
     }
 
     @NonNull
@@ -48,8 +51,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.FileLi
         return fileArray.length;
     }
 
-    public class FileListViewHolder extends RecyclerView.ViewHolder
-    {
+    public class FileListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView single_file_list_play_button;
         private TextView display_name, display_date;
 
@@ -60,6 +62,21 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.FileLi
             single_file_list_play_button = itemView.findViewById(R.id.single_file_list_playButton);
             display_name = itemView.findViewById(R.id.single_file_list_fileName);
             display_date = itemView.findViewById(R.id.single_file_list_date);
+
+            // Set on click to each file list
+            itemView.setOnClickListener(this);
         }
+
+        // On click functionality for item in the file list
+        @Override
+        public void onClick(View view) {
+            onItemListClick.onClickListener(fileArray[getAdapterPosition()], getAdapterPosition());
+        }
+    }
+
+    // Onclick declaration
+    public interface onItemListClick
+    {
+        void onClickListener(File file, int position);
     }
 }

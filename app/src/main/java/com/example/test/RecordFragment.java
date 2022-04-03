@@ -1,6 +1,8 @@
 package com.example.test;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -78,6 +80,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         timer = view.findViewById(R.id.record_fragment_timer);
         // Display filename
         display_fileName = view.findViewById(R.id.record_fragment_displayFilename);
+
     }
 
     @Override
@@ -87,8 +90,29 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         {
             // if list button is clicked
             case R.id.record_fragment_listButton:
-                navController.navigate(R.id.action_recordFragment_to_audioListFragment);
+                if (isRecording == true)
+                {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    // Buttons for Alert Dialogs
+                    alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i)
+                        {
+                            navController.navigate(R.id.action_recordFragment_to_audioListFragment);
+                        }
+                    });
+                    alertDialog.setNegativeButton("No", null);
+
+                    alertDialog.setTitle("Audio recording is in progress");
+                    alertDialog.setMessage("Do you want to stop the recording?");
+                    alertDialog.create().show();
+                }
+                else
+                {
+                    navController.navigate(R.id.action_recordFragment_to_audioListFragment);
+                }
                 break;
+
             // if record button is clicked
             case R.id.record_fragment_recordButton:
                 if (isMicPresent())
@@ -154,10 +178,11 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         timer.start();
 
         // formatting filenames + save to a location
-        SimpleDateFormat fileNameFormatter = new SimpleDateFormat("yyyy_MM_dd_HH:mm:ss", Locale.US);
+        // Make sure the name does not contain any special characters
+        SimpleDateFormat fileNameFormatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US);
         Date currentDate = new Date();
         filePath = getActivity().getExternalFilesDir("/").getAbsolutePath();
-        fileName = fileNameFormatter.format(currentDate) + ".mp3";
+        fileName = fileNameFormatter.format(currentDate) + ".aac";
 
         // Displays file name
         display_fileName.setText("File name: " + fileName);
@@ -166,7 +191,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         mediaRecorder.setOutputFile(filePath + "/" + fileName);
 
         try {
@@ -187,7 +212,14 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         mediaRecorder.release();
         mediaRecorder = null;
     }
-
-
-
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        // Stop audio + avoid crash + avoid corrupted file when exiting while recording
+        if (isRecording == true)
+        {
+            stopRecording();
+        }
+    }
 }

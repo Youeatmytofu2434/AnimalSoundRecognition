@@ -26,21 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:paddingTop="24dp"
-            android:paddingBottom="24dp"
+            android:paddingBottom="30dp"
             app:srcCompat="@android:drawable/sym_contact_card" />
-
-        <TextView
-            android:id="@+id/player_sheet_media_player"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:fontFamily="sans-serif"
-            android:paddingTop="24dp"
-            android:paddingBottom="24dp"
-            android:text="Media Player"
-            android:textColor="@color/white"
-            android:textSize="16dp"
-            />
 
         <TextView
             android:id="@+id/player_sheet_not_playing"
@@ -51,7 +38,7 @@
             android:paddingTop="24dp"
             android:paddingEnd="24dp"
             android:paddingBottom="24dp"
-            android:text="Not Playing"
+            android:text="Stand By!"
             android:textAlignment="textEnd"
             android:textColor="@color/white"
             android:textSize="16dp"
@@ -85,30 +72,8 @@
         app:layout_constraintTop_toBottomOf="@+id/player_sheet_file_name"
         app:srcCompat="@android:drawable/ic_media_play" />
 
-    <ImageButton
-        android:id="@+id/player_sheet_previous_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/player_sheet_play_icon"
-        app:layout_constraintEnd_toStartOf="@+id/player_sheet_play_icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/player_sheet_play_icon"
-        app:srcCompat="@android:drawable/ic_media_previous"
-        android:padding="16dp"
-        android:background="@color/colorPrimary"/>
-
-    <ImageView
-        android:id="@+id/player_sheet_next_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/player_sheet_play_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/player_sheet_play_icon"
-        app:layout_constraintTop_toTopOf="@+id/player_sheet_play_icon"
-        app:srcCompat="@android:drawable/ic_media_next"
-        android:padding="16dp"
-        android:background="@color/colorPrimary"/>
     <SeekBar
+        android:id="@+id/player_sheet_seekbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
