@@ -36,7 +36,7 @@ import java.util.Locale;
 public class RecordFragment extends Fragment implements View.OnClickListener {
 
     private NavController navController;
-    private ImageView listButton, recordButton;
+    private ImageView listButton, recordButton, profileIcon;
 
     // Recording stuff
     private boolean isRecording = false;
@@ -73,13 +73,18 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         // Initialize + set onclick function to list button (ImageView)
         listButton = view.findViewById(R.id.record_fragment_listButton);
         listButton.setOnClickListener(this);
+
+        // Profile Picture
+        profileIcon = view.findViewById(R.id.record_fragment_profile_icon);
+        profileIcon.setOnClickListener(this);
+
         // Initialize + set onclick function to record button (ImageView)
         recordButton = view.findViewById(R.id.record_fragment_recordButton);
         recordButton.setOnClickListener(this);
         // Timer
         timer = view.findViewById(R.id.record_fragment_timer);
         // Display filename
-        display_fileName = view.findViewById(R.id.record_fragment_displayFilename);
+        display_fileName = view.findViewById(R.id.record_fragment_file_name);
 
     }
 
@@ -137,6 +142,10 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 }
                 else
                     Toast.makeText(getContext(), "Mic is not present! Please try again!", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.record_fragment_profile_icon:
+                navController.navigate(R.id.action_recordFragment_to_profilePage);
                 break;
         }
     }

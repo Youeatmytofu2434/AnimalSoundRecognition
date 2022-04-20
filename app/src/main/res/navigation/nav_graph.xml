@@ -19,6 +19,9 @@
             app:popEnterAnim="@anim/fade_in"
             app:enterAnim="@anim/slide_in"
             app:popExitAnim="@anim/slide_out"/>
+        <action
+            android:id="@+id/action_recordFragment_to_profilePage"
+            app:destination="@id/profilePage" />
     </fragment>
 
     <!--audio list fragment-->
@@ -28,4 +31,9 @@
         android:label="fragment_audio_list"
         tools:layout="@layout/fragment_audio_list"
         />
+    <activity
+        android:id="@+id/profilePage"
+        android:name="com.example.test.ProfilePage"
+        android:label="activity_profilepage"
+        tools:layout="@layout/activity_profilepage" />
 </navigation>

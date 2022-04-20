@@ -7,7 +7,7 @@
     tools:context=".ProfilePage">
 
     <TextView
-        android:id="@+id/profilepage_companyName"
+        android:id="@+id/profilepage_edit_companyName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -21,18 +21,18 @@
         app:layout_constraintTop_toTopOf="parent"
         />
     <TextView
-        android:id="@+id/profilepage_companyDescription"
+        android:id="@+id/profilepage_edit_companyDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Company's Descriptions"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilepage_companyName"
+        app:layout_constraintTop_toBottomOf="@+id/profilepage_edit_companyName"
         />
 
     <TextView
-        android:id="@+id/profilepage_nameHeader"
+        android:id="@+id/profilepage_edit_nameHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name: "
@@ -40,34 +40,34 @@
         android:textSize="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="10dp"
-        app:layout_constraintTop_toBottomOf="@id/profilepage_companyName"
-        android:layout_marginTop="70dp"/>
+        app:layout_constraintTop_toBottomOf="@id/profilepage_edit_companyName"
+        android:layout_marginTop="83dp"/>
 
-    <TextView
-        android:id="@+id/profilepage_name"
+    <EditText
+        android:id="@+id/profilepage_edit_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="NameEmpty"
         android:layout_marginLeft="10dp"
-        app:layout_constraintTop_toBottomOf="@id/profilepage_companyName"
+        app:layout_constraintTop_toBottomOf="@id/profilepage_edit_companyName"
         android:layout_marginTop="70dp"
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintLeft_toRightOf="@id/profilepage_nameHeader" />
+        app:layout_constraintLeft_toRightOf="@id/profilepage_edit_nameHeader" />
 
     <Button
-        android:id="@+id/profilepage_logout_button"
+        android:id="@+id/profilepage_edit_update_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log Out"
+        android:text="Update"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="100dp"
         />
 
     <TextView
-        android:id="@+id/profilepage_emailHeader"
+        android:id="@+id/profilepage_edit_emailHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Email: "
@@ -75,18 +75,18 @@
         android:textSize="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="10dp"
-        app:layout_constraintTop_toBottomOf="@id/profilepage_nameHeader"
-        android:layout_marginTop="70dp"/>
+        app:layout_constraintTop_toBottomOf="@id/profilepage_edit_nameHeader"
+        android:layout_marginTop="90dp"/>
 
-    <TextView
-        android:id="@+id/profilepage_email"
+    <EditText
+        android:id="@+id/profilepage_edit_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="EmailEmtpy"
         android:textStyle="bold"
         android:textSize="20dp"
-        app:layout_constraintLeft_toRightOf="@id/profilepage_emailHeader"
+        app:layout_constraintLeft_toRightOf="@id/profilepage_edit_emailHeader"
         android:layout_marginLeft="10dp"
-        app:layout_constraintTop_toBottomOf="@id/profilepage_name"
+        app:layout_constraintTop_toBottomOf="@id/profilepage_edit_name"
         android:layout_marginTop="70dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

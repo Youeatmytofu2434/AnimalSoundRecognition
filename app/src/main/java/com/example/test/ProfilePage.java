@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ProfilePage extends AppCompatActivity implements View.OnClickListener {
 
-    private Button logout_button;
+    private Button logout_button, edit_button;
     private FirebaseUser DataBaseUser;
     private DatabaseReference reference;
 
@@ -35,6 +35,7 @@ public class ProfilePage extends AppCompatActivity implements View.OnClickListen
         // Initializing functionalities
         logout_button = (Button) findViewById(R.id.profilepage_logout_button);
         logout_button.setOnClickListener(this);
+
 
         // Place holder for info from database
         TextView displayNameTextView = (TextView) findViewById(R.id.profilepage_name);
@@ -80,6 +81,7 @@ public class ProfilePage extends AppCompatActivity implements View.OnClickListen
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(ProfilePage.this, "Signed out successfully", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(ProfilePage.this, Login.class));
+                break;
         }
     }
 }
