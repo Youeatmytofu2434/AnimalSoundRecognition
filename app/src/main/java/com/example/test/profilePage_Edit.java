@@ -19,6 +19,4 @@ public class profilePage_Edit extends AppCompatActivity {
 
 
     }
-
-
 }
