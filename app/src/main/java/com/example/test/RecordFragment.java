@@ -1,9 +1,11 @@
 package com.example.test;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 
@@ -24,10 +26,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.tensorflow.lite.support.audio.TensorAudio;
+import org.tensorflow.lite.support.label.Category;
+import org.tensorflow.lite.task.audio.classifier.AudioClassifier;
+import org.tensorflow.lite.task.audio.classifier.Classifications;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,14 +53,20 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
     private boolean isRecording = false;
     private static int MIC_PERMISSION_CODE = 2434;
     MediaRecorder mediaRecorder;
+
     // File name
     private String filePath = "";
     private String fileName = "";
     // Timer
     private Chronometer timer;
     // Display filename
-    private TextView display_fileName;
-
+    private TextView display_fileName, ml_output, ml_specs;
+    // ML Stuff
+    private String model = "lite-model_yamnet_classification.tflite";
+    private AudioRecord audioRecord;
+    private TimerTask timerTask;
+    private AudioClassifier audioClassifier;
+    private TensorAudio tensorAudio;
 
     public RecordFragment() {
         // Required empty public constructor
@@ -85,6 +102,22 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         timer = view.findViewById(R.id.record_fragment_timer);
         // Display filename
         display_fileName = view.findViewById(R.id.record_fragment_file_name);
+
+        // ML Model outputs
+        ml_output = view.findViewById(R.id.record_fragment_machineLearning_output);
+        ml_specs = view.findViewById(R.id.record_fragment_machineLearning_specs);
+
+        // Loading the model from the assets folder
+        try
+        {
+            audioClassifier = AudioClassifier.createFromFile(this.getContext(), model);
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        // Creating instance of Audio Recorder
+        tensorAudio = audioClassifier.createInputTensorAudio();
 
     }
 
@@ -209,6 +242,53 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
         mediaRecorder.start();
+
+        // Show ML model's specs
+        TensorAudio.TensorAudioFormat format = audioClassifier.getRequiredTensorAudioFormat();
+        String specs = "Number of channels: " + format.getChannels() + "\n" + "Sample Rate: " + format.getSampleRate();
+        ml_specs.setText(specs);
+        // Start recording on audioRecorder instance
+        audioRecord = audioClassifier.createAudioRecord();
+        audioRecord.startRecording();
+
+
+        // Start timer for ML and start identifying/analyze recording
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                tensorAudio.load(audioRecord);
+                List<Classifications> outputs = audioClassifier.classify(tensorAudio);
+
+                // Filtering out classifications with low probability
+                List<Category> final_output = new ArrayList<>();
+                for (Classifications classifications : outputs)
+                {
+                    for (Category category : classifications.getCategories())
+                    {
+                        if (category.getScore() > .5f)
+                        {
+                            final_output.add(category);
+                        }
+                    }
+                }
+                // Print outputs
+                StringBuilder output_Str = new StringBuilder();
+                for (Category category : final_output)
+                {
+                    output_Str.append(category.getLabel()).append(": ").append(category.getScore()).append("\n");
+                }
+
+                // Execute classification every .5s
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ml_output.setText(output_Str.toString());
+                    }
+                });
+
+            }
+        };
+        new Timer().scheduleAtFixedRate(timerTask, 1, 500);
     }
 
     // Stop recording --> stop timer
@@ -220,6 +300,11 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         mediaRecorder.stop();
         mediaRecorder.release();
         mediaRecorder = null;
+
+        // Stop recording on audioRecorder instance
+        audioRecord.stop();
+        // Cancel timerTask
+        timerTask.cancel();
     }
     @Override
     public void onStop()
