@@ -288,7 +288,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
 
             }
         };
-        new Timer().scheduleAtFixedRate(timerTask, 1, 500);
+        new Timer().scheduleAtFixedRate(timerTask, 1, 1000);
     }
 
     // Stop recording --> stop timer
