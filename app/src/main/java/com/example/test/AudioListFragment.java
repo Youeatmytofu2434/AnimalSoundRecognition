@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.FileUtils;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +23,9 @@ import android.widget.TextView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -88,6 +91,7 @@ public class AudioListFragment extends Fragment implements FileListAdapter.onIte
         fileList.setHasFixedSize(true);
         fileList.setLayoutManager(new LinearLayoutManager(getContext()));
         fileList.setAdapter(fileListAdapter);
+
 
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override

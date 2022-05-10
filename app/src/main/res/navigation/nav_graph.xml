@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_recordFragment_to_profilePage"
             app:destination="@id/profilePage" />
+        <action
+            android:id="@+id/action_recordFragment_to_activity_listFile"
+            app:destination="@id/activity_listFile" />
     </fragment>
 
     <!--audio list fragment-->
@@ -36,4 +39,9 @@
         android:name="com.example.test.ProfilePage"
         android:label="activity_profilepage"
         tools:layout="@layout/activity_profilepage" />
+    <activity
+        android:id="@+id/activity_listFile"
+        android:name="com.example.test.activity_listFile"
+        android:label="activity_list_file"
+        tools:layout="@layout/activity_list_file" />
 </navigation>

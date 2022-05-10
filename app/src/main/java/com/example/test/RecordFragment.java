@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -47,12 +48,13 @@ import java.util.TimerTask;
 public class RecordFragment extends Fragment implements View.OnClickListener {
 
     private NavController navController;
-    private ImageView listButton, recordButton, profileIcon;
+    private ImageView listButton, recordButton, profileIcon, fileList_btn;
 
     // Recording stuff
     private boolean isRecording = false;
     private static int MIC_PERMISSION_CODE = 2434;
     MediaRecorder mediaRecorder;
+    private static int AUDIO_SAMPLING_RATE = 16000;
 
     // File name
     private String filePath = "";
@@ -94,6 +96,10 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         // Profile Picture
         profileIcon = view.findViewById(R.id.record_fragment_profile_icon);
         profileIcon.setOnClickListener(this);
+
+        // Choose File Button
+        fileList_btn = view.findViewById(R.id.record_fragment_selectFileButton);
+        fileList_btn.setOnClickListener(this);
 
         // Initialize + set onclick function to record button (ImageView)
         recordButton = view.findViewById(R.id.record_fragment_recordButton);
@@ -180,6 +186,10 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
             case R.id.record_fragment_profile_icon:
                 navController.navigate(R.id.action_recordFragment_to_profilePage);
                 break;
+
+            case R.id.record_fragment_selectFileButton:
+                navController.navigate(R.id.action_recordFragment_to_activity_listFile);
+                break;
         }
     }
 
@@ -233,10 +243,11 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         mediaRecorder.setOutputFile(filePath + "/" + fileName);
 
         try {
+            mediaRecorder.setAudioSamplingRate(AUDIO_SAMPLING_RATE);
             mediaRecorder.prepare();
         } catch (IOException e) {
             e.printStackTrace();
@@ -245,8 +256,8 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
 
         // Show ML model's specs
         TensorAudio.TensorAudioFormat format = audioClassifier.getRequiredTensorAudioFormat();
-        String specs = "Number of channels: " + format.getChannels() + "\n" + "Sample Rate: " + format.getSampleRate();
-        ml_specs.setText(specs);
+        //String specs = "Number of channels: " + format.getChannels() + "\n" + "Sample Rate: " + format.getSampleRate();
+        //ml_specs.setText(specs);
         // Start recording on audioRecorder instance
         audioRecord = audioClassifier.createAudioRecord();
         audioRecord.startRecording();
@@ -255,7 +266,8 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
         // Start timer for ML and start identifying/analyze recording
         timerTask = new TimerTask() {
             @Override
-            public void run() {
+            public void run()
+            {
                 tensorAudio.load(audioRecord);
                 List<Classifications> outputs = audioClassifier.classify(tensorAudio);
 

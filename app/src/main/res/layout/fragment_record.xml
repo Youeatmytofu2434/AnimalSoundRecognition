@@ -69,6 +69,18 @@
         app:layout_constraintStart_toEndOf="@id/record_fragment_recordButton"
         app:layout_constraintTop_toTopOf="@id/record_fragment_recordButton" />
 
+    <!-- Select File Button -->
+    <ImageView
+        android:id="@+id/record_fragment_selectFileButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:layout_constraintBottom_toBottomOf="@id/record_fragment_recordButton"
+        app:layout_constraintEnd_toStartOf="@+id/record_fragment_recordButton"
+        app:layout_constraintStart_toEndOf="@id/record_fragment_recordButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/record_fragment_recordButton"
+        app:srcCompat="@android:drawable/sym_contact_card" />
+
     <!-- Display filename-->
     <TextView
         android:id="@+id/record_fragment_file_name"
