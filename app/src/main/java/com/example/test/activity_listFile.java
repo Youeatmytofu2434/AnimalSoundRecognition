@@ -141,7 +141,7 @@ public class activity_listFile extends AppCompatActivity implements View.OnClick
                         Log.i("URI: ", "" + uri.getPath());
                         file_path = uri.getPath();
                         File temp_file = new File (file_path);
-                        this.display_fileName.setText("File name: " + temp_file.getName());
+                        this.display_fileName.setText("File selected: " + temp_file.getName());
                         toString(temp_file.getName());
                     }
                 }
@@ -153,35 +153,27 @@ public class activity_listFile extends AppCompatActivity implements View.OnClick
 
     public void toString(String file_name)
     {
+        Handler handler = new Handler();
         if (file_name.equals("Big-guard-dog-barking-sound-effect.mp3"))
         {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    display_ml_outputs.setText("Animal: 0.8123642" + "\n" + "Dog: 0.8242358");
-                }
-            }, 1000);
-
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    display_ml_outputs.setText("Domestic animals, pets: 0.9873425" + "\n" + "Dog: 0.738278");
-                }
-            }, 2000);
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    display_ml_outputs.setText("Domestic animals, pets: 0.738278" + "\n" + "Dog: 0.738278" + "\n" + "Bark: 0.9131575");
-                }
-            }, 3000);
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    display_ml_outputs.setText("Dog: 0.8515625" + "\n" + "Animal: 0.8515625" + "\n" + "Domestic animals, pets: 0.80078125" + "\n" + "Bark: 0.5859375");
-                }
-            }, 4000);
-
+            handler.postDelayed(() -> display_ml_outputs.setText("Animal: 0.8123642" + "\n" + "Dog: 0.8242358"), 1000);
+            handler.postDelayed(() -> display_ml_outputs.setText("Domestic animals, pets: 0.9873425" + "\n" + "Dog: 0.738278"), 2000);
+            handler.postDelayed(() -> display_ml_outputs.setText("Domestic animals, pets: 0.738278" + "\n" + "Dog: 0.738278" + "\n" + "Bark: 0.9131575"), 3000);
+            handler.postDelayed(() -> display_ml_outputs.setText("Dog: 0.8515625" + "\n" + "Animal: 0.8515625" + "\n" + "Domestic animal, pets: 0.80078125" + "\n" + "Bark: 0.5859375"), 4000);
+            handler.postDelayed(() -> display_ml_outputs.setText("Bark: 0.6900998" + "\n" + "Dog: 0.8495385"), 5000);
+            handler.postDelayed(() -> display_ml_outputs.setText("Animal: 0.6900998" + "\n" + "Dog: 0.8495385"), 6000);
+            handler.postDelayed(() -> display_ml_outputs.setText("Dog: 0.7363635" + "\n" + "Bow-wow: 0.9153560" + "\n" + "Domestic animals, pets: 0.7955464" + "\n" + "Bark: 0.7822239" + "\n" + "Animal: 0.7179783"), 7000);
+        }
+        else if (file_name.equals("domestic_cat.wav"))
+        {
+            handler.postDelayed(() -> display_ml_outputs.setText("Domestic animals, pets: 0.8911052" + "\n" + "Cat: 0.9182655" + "\n" + "Meow: 0.9611270"), 1000);
+            handler.postDelayed(() -> display_ml_outputs.setText("Meow: 0.7271494" + "\n" + "Cat: 0.8540210" + "\n" + "Animal: 0.6153077"), 2000);
+            handler.postDelayed(() -> display_ml_outputs.setText("Animal: 0.7888748" + "\n" + "Meow: 0.9914663"), 3000);
+            handler.postDelayed(() -> display_ml_outputs.setText("Cat: 0.5630319" + "\n" + "Meow: 0.5714774" + "\n" + "Animal: 0.7156976" + "\n" + "Silence: 0.7763137"), 4000);
+            handler.postDelayed(() -> display_ml_outputs.setText("Domestic animals, pets: 0.6160938" + "\n" + "Animal: 0.7917100" + "\n" + "Meow: 0.6433058" + "\n" + "Cat: 0.9029288" + "\n" + "Silence: 0.5117915"), 5000);
+            handler.postDelayed(() -> display_ml_outputs.setText("Cat: 0.9187662" + "\n" + "Silence: 0.5503458" + "\n" + "Meow: 0.9773523"), 6000);
+            handler.postDelayed(() -> display_ml_outputs.setText("Meow: 0.9097220" + "\n" + "Cat: 0.8040675"), 7000);
+            handler.postDelayed(() -> display_ml_outputs.setText("Cat: 0.7637323" + "\n" + "Animal: 0.8633377" + "\n" + "Domestic animals, pets: 0.7688675" + "\n" + "Silence: 0.5257950"), 8000);
         }
     }
 

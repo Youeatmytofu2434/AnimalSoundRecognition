@@ -277,7 +277,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
                 {
                     for (Category category : classifications.getCategories())
                     {
-                        if (category.getScore() > .5f)
+                        if (category.getScore() > .3f)
                         {
                             final_output.add(category);
                         }
@@ -300,7 +300,7 @@ public class RecordFragment extends Fragment implements View.OnClickListener {
 
             }
         };
-        new Timer().scheduleAtFixedRate(timerTask, 1, 1000);
+        new Timer().scheduleAtFixedRate(timerTask, 1, 700);
     }
 
     // Stop recording --> stop timer
